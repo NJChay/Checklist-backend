@@ -29,3 +29,12 @@ def deleteData(request):
     print(request.GET.get('id'))
     TodoItem.objects.all().filter(id=request.GET.get('id')).delete()
     return Response()
+
+
+@api_view(['PUT'])
+def putData(request):
+    TodoItem.objects.all().filter(id=request.data.get('id')).delete()
+    serializer = DataSerializer(data=request.data)
+    if serializer.is_valid():
+        serializer.save()
+    return Response()
