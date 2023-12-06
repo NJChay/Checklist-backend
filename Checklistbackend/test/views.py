@@ -2,7 +2,7 @@ import uuid
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from .models import TodoItem
-from .serializers import DataSerializer
+from .serializers import DataSerializer, UserSerializer
 
 
 def get_client_ip(request):
@@ -35,6 +35,18 @@ def postData(request):
     clean_id(request.data)
     print(request.data)
     serializer = DataSerializer(data=request.data)
+    if serializer.is_valid():
+        serializer.save()
+    else:
+        print(serializer.errors)
+    return Response(serializer.data)
+
+
+@api_view(['POST'])
+def postUser(request):
+    clean_id(request.data)
+    print(request.data)
+    serializer = UserSerializer(data=request.data)
     if serializer.is_valid():
         serializer.save()
     else:

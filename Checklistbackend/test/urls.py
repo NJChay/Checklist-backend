@@ -5,7 +5,7 @@ from django.urls import path, include
 urlpatterns = [
     path('', views.getData),
     path('post', views.postData),
-    # path('<string:pk>/', views.deleteData, name='task-delete'),
+    path('postuser', views.postUser),
     path('delete', views.deleteData),
     path('put', views.putData),
 ]
