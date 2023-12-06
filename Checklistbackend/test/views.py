@@ -1,13 +1,30 @@
-
-from django.shortcuts import render
+import uuid
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from .models import TodoItem
 from .serializers import DataSerializer
 
 
+def get_client_ip(request):
+    x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
+    if x_forwarded_for:
+        ip = x_forwarded_for.split(',')[0]
+    else:
+        ip = request.META.get('REMOTE_ADDR')
+    return ip
+
+
+def check_owner():
+    pass
+
+
+def clean_id(data):
+    data['id'] = str(uuid.uuid4())
+
+
 @api_view(['GET'])
 def getData(request):
+    print(get_client_ip(request))
     app = TodoItem.objects.all()
     serializer = DataSerializer(app, many=True)
     return Response(serializer.data)
@@ -15,6 +32,7 @@ def getData(request):
 
 @api_view(['POST'])
 def postData(request):
+    clean_id(request.data)
     print(request.data)
     serializer = DataSerializer(data=request.data)
     if serializer.is_valid():
@@ -37,4 +55,6 @@ def putData(request):
     serializer = DataSerializer(data=request.data)
     if serializer.is_valid():
         serializer.save()
+    else:
+        print(serializer.errors)
     return Response()

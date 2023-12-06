@@ -1,8 +1,8 @@
 from django.db import models
 import uuid
 
-
 class User(models.Model):
+    id = models.CharField(max_length=200, primary_key=True)
     name = models.CharField(max_length=200)
 
 
@@ -11,6 +11,5 @@ class TodoItem(models.Model):
     id = models.CharField(max_length=200, primary_key=True)
     title = models.CharField(max_length=200)
     completed = models.BooleanField()
-    #user = models.ForeignKey(User, on_delete=models.CASCADE)
-
+    owner_id = models.ForeignKey(User, on_delete=models.CASCADE)
 
