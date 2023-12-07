@@ -1,7 +1,11 @@
 import uuid
+
+from django.shortcuts import get_object_or_404
+from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
-from .models import TodoItem
+from rest_framework.authtoken.models import Token
+from .models import TodoItem, User
 from .serializers import DataSerializer, UserSerializer
 
 
@@ -43,12 +47,26 @@ def postData(request):
 
 
 @api_view(['POST'])
+def loginUser(request):
+    user = get_object_or_404(User, name=request.data['name'])
+    serializer = UserSerializer(data=request.data)
+    if not user.password == request.data['password']:
+        return Response({"detail": "Not found"}, status=status.HTTP_404_NOT_FOUND)
+    return Response({"detail": "Found"}, status=status.HTTP_200_OK)
+
+
+@api_view(['POST'])
 def postUser(request):
     clean_id(request.data)
     print(request.data)
     serializer = UserSerializer(data=request.data)
     if serializer.is_valid():
         serializer.save()
+        user = User.objects.get(name=request.data['name'])
+        user.password = hash(user.password)
+        print(user.password)
+        # token = Token.objects.create(user=user)
+        return Response({"user": serializer.data})
     else:
         print(serializer.errors)
     return Response(serializer.data)
