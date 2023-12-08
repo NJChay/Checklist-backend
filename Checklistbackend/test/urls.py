@@ -8,5 +8,7 @@ urlpatterns = [
     path('postuser', views.postUser),
     path('delete', views.deleteData),
     path('put', views.putData),
-    path('login', views.loginUser)
+    path('login', views.loginUser),
+    path('forgot', views.recoverUser),
+    path('recover', views.updatePasword),
 ]
