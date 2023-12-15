@@ -55,6 +55,8 @@ MIDDLEWARE = [
 
 CORS_ALLOWED_ORIGINS = [
     'http://localhost:4200',
+    'http://localhost:80',
+    'http://localhost'
 ]
 
 ROOT_URLCONF = 'Checklistbackend.urls'
@@ -87,8 +89,8 @@ DATABASES = {
         'NAME': 'nicolas-db',
         'USER': 'sergey',
         'PASSWORD': 'sergey',
-        'HOST': '127.0.0.1',
-        'PORT': '3307',
+        'HOST': '10.20.23.12',
+        'PORT': '3308',
         'OPTIONS': {
             'init_command': "SET sql_mode='STRICT_TRANS_TABLES'"
         }
