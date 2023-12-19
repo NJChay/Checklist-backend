@@ -18,4 +18,5 @@ RUN pip install --upgrade pip && pip install -r requirements.txt
 EXPOSE 8000
 
 # Run the application
+CMD ["python", "manage.py", "migrate"]
 CMD ["python", "manage.py", "runserver"]

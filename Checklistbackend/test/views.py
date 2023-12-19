@@ -49,10 +49,12 @@ def postData(request):
 @api_view(['POST'])
 def loginUser(request):
     user = get_object_or_404(User, name=request.data['name'])
-    serializer = UserSerializer(data=request.data)
+    serializer = UserSerializer(user)
     if not user.password == request.data['password']:
         return Response({"detail": "Not found"}, status=status.HTTP_404_NOT_FOUND)
-    return Response({"detail": "Found"}, status=status.HTTP_200_OK)
+    else:
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
 
 
 @api_view(['POST'])
